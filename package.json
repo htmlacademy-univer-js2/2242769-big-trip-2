@@ -14,7 +14,7 @@
     "eslint": "eslint src/",
     "test": "npm run eslint",
     "build": "webpack --mode production",
-    "start": "webpack serve --mode development"
+    "start": "webpack serve --mode development --open"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
