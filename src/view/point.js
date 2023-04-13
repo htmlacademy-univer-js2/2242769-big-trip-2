@@ -1,33 +1,7 @@
 import { createElement } from '../render.js';
 import { dateFormChange, duration, getDate, getTime } from '../util.js';
 
-const renderOffers = (allOffers, checkedOffers) => {
-  let result = '';
-  allOffers.forEach((offer) => {
-    if (checkedOffers.includes(offer.id)) {
-      result = `${result}<li class="event__offer"><span class="event__offer-title">${offer.title}</span>&plus;&euro;&nbsp;<span class="event__offer-price">${offer.price}</span></li>`;
-    }
-  });
-  return result;
-};
 
-const createPreviewPointTemplate = (point, destinations, offers) => {
-  const { basePrice, type, destinationId, isFavorite, dateFrom, dateTo, offerIds } = point;
-  const allPointTypeOffers = offers.find((offer) => offer.type === type);
-  const eventDuration = duration(dateFrom, dateTo);
-  const startDate = dateFrom !== null ? dateFormChange(dateFrom) : '';
-  const endDate = dateTo !== null ? dateFormChange(dateTo) : '';
-  return (
-    `<li class="trip-events__item">
-      <div class="event">
-        <time class="event__date" datetime="${getDate(dateFrom)}">${startDate}</time>
-        <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event ${type} icon">
-      </div>
-      <h3 class="event__title">${type} ${destinations[destinationId].name}</h3>
-      <div class="event__schedule">
-        <p class="event__time">
-        <time class="event__start-time" datetime="${dateFrom}">${(startDate === endDate) ? getTime(dateFrom) : startDate}</time>
         &mdash;
         <time class="event__end-time" datetime="${dateTo}">${(startDate === endDate) ? getTime(dateTo) : endDate}</time>
         </p>
@@ -61,8 +35,6 @@ export default class PreviewPointView {
     this.offers = offers;
   }
 
-  getTemplate() {
-    return createPreviewPointTemplate(this.point, this.destination, this.offers);
   }
 
   getElement() {
@@ -76,4 +48,3 @@ export default class PreviewPointView {
   removeElement() {
     this.element = null;
   }
-}

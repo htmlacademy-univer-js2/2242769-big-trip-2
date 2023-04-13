@@ -12,9 +12,4 @@ const points = getPoints();
 const offersByType = getOffersByType();
 const destinations = getDestinations();
 
-const pointsModel = new PointsModel();
 
-render(new FilterView(), siteHeaderElement.querySelector('.trip-controls__filters'));
-
-pointsModel.init(points, destinations, offersByType);
-tripPresenter.init(pointsModel);
