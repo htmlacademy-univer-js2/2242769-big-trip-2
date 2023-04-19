@@ -3,6 +3,7 @@ import PointView from '../view/point.js';
 import EditingPointView from '../view/point-edit.js';
 import SortView from '../view/sort.js';
 import { render } from '../render.js';
+import EmptyListView from '../view/empty-list-view.js';
 
 export default class TripEventsPresenter {
   #eventsList = null;
@@ -23,11 +24,14 @@ export default class TripEventsPresenter {
     this.#destinations = [...this.#pointsModel.destinations];
     this.#offers = [...this.#pointsModel.offers];
 
-    render(new SortView(), this.#tripContainer);
-    render(this.#eventsList, this.#tripContainer);
-
-    for (const point of this.#boardPoints) {
-      this.#renderPoint(point);
+    if (this.#boardPoints.length === 0) {
+      render(new EmptyListView(), this.#tripContainer);
+    } else {
+      render(new SortView(), this.#tripContainer);
+      render(this.#eventsList, this.#tripContainer);
+      for (const point of this.#boardPoints) {
+        this.#renderPoint(point);
+      }
     }
   }
 
@@ -51,8 +55,9 @@ export default class TripEventsPresenter {
     };
     const onEscKeyup = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
         turnPointToView();
-        document.removeEventListener('keyup', onEscKeyup());
+        document.removeEventListener('keyup', onEscKeyup);
       }
     };
 
