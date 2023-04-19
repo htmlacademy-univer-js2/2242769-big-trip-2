@@ -2,7 +2,7 @@ import TripList from '../view/trip-list.js';
 import PointView from '../view/point.js';
 import EditingPointView from '../view/point-edit.js';
 import SortView from '../view/sort.js';
-import { render } from '../render.js';
+import { render, replace } from '../framework/render.js';
 import EmptyListView from '../view/empty-list-view.js';
 
 export default class TripEventsPresenter {
@@ -41,48 +41,38 @@ export default class TripEventsPresenter {
     const editComponent = new EditingPointView(point, this.#destinations, this.#offers);
 
     const turnPointToEdit = () => {
-      this.#eventsList.element.replaceChild(
-        editComponent.element,
-        pointComponent.element
+      replace(
+        editComponent, pointComponent
       );
     };
 
     const turnPointToView = () => {
-      this.#eventsList.element.replaceChild(
-        pointComponent.element,
-        editComponent.element
+      replace(
+        pointComponent, editComponent
       );
     };
-    const onEscKeyup = (evt) => {
+    const onEscKeyUp = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
         turnPointToView();
-        document.removeEventListener('keyup', onEscKeyup);
+        document.removeEventListener('keyup', onEscKeyUp);
       }
     };
 
-    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    pointComponent.setEditClickHandler(() => {
       turnPointToEdit();
-      document.addEventListener('keyup', onEscKeyup());
+      document.addEventListener('keyup', onEscKeyUp);
     });
 
-    editComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    editComponent.setPreviewClickHandler(() => {
       turnPointToView();
-      document.removeEventListener('keyup', onEscKeyup());
+      document.removeEventListener('keyup', onEscKeyUp);
     });
 
-    editComponent.element.querySelector('.event--edit').addEventListener('submit', (evt) => {
-      evt.preventDefault();
+    editComponent.setFormSubmitHandler(() => {
       turnPointToView();
-      document.removeEventListener('keyup', onEscKeyup());
+      document.removeEventListener('keydown', onEscKeyUp);
     });
-
-    editComponent.element.querySelector('.event--edit').addEventListener('reset', (evt) => {
-      evt.preventDefault();
-      turnPointToView();
-      document.removeEventListener('keyup', onEscKeyup());
-    });
-
     render(pointComponent, this.#eventsList.element);
   }
 }

@@ -1,5 +1,6 @@
 import AbstractView from './abstract-view.js';
 
+const structuredClone = window.structuredClone;
 /**
  * Абстрактный класс представления с состоянием
  */
