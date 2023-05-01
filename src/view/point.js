@@ -1,7 +1,33 @@
 import { createElement } from '../render.js';
 import { dateFormChange, duration, getDate, getTime } from '../util.js';
 
+const renderOffers = (allOffers, checkedOffers) => {
+  let result = '';
+  allOffers.forEach((offer) => {
+    if (checkedOffers.includes(offer.id)) {
+      result = `${result}<li class="event__offer"><span class="event__offer-title">${offer.title}</span>&plus;&euro;&nbsp;<span class="event__offer-price">${offer.price}</span></li>`;
+    }
+  });
+  return result;
+};
 
+const createPointTemplate = (point, destinations, offers) => {
+  const { basePrice, type, destinationId, isFavorite, dateFrom, dateTo, offerIds } = point;
+  const allPointTypeOffers = offers.find((offer) => offer.type === type);
+  const eventDuration = duration(dateFrom, dateTo);
+  const startDate = dateFrom !== null ? dateFormChange(dateFrom) : '';
+  const endDate = dateTo !== null ? dateFormChange(dateTo) : '';
+  return (
+    `<li class="trip-events__item">
+      <div class="event">
+        <time class="event__date" datetime="${getDate(dateFrom)}">${startDate}</time>
+        <div class="event__type">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event ${type} icon">
+      </div>
+      <h3 class="event__title">${type} ${destinations[destinationId].name}</h3>
+      <div class="event__schedule">
+        <p class="event__time">
+        <time class="event__start-time" datetime="${dateFrom}">${(startDate === endDate) ? getTime(dateFrom) : startDate}</time>
         &mdash;
         <time class="event__end-time" datetime="${dateTo}">${(startDate === endDate) ? getTime(dateTo) : endDate}</time>
         </p>
@@ -28,23 +54,30 @@ import { dateFormChange, duration, getDate, getTime } from '../util.js';
   );
 };
 
-export default class PreviewPointView {
+export default class PointView {
+  #element = null;
+  #point = null;
+  #destination = [];
+  #offers = [];
   constructor(point, destination, offers) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
   }
 
+  get template() {
+    return createPointTemplate(this.#point, this.#destination, this.#offers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
+}
