@@ -3,7 +3,6 @@ import PointView from '../view/point.js';
 import EditingPointView from '../view/point-edit.js';
 import SortView from '../view/sort.js';
 import { render, replace } from '../framework/render.js';
-import EmptyListView from '../view/empty-list-view.js';
 
 
 export default class TripEventsPresenter {
@@ -54,7 +53,7 @@ export default class TripEventsPresenter {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         turnPointToView();
 
-        document.removeEventListener('keyup', onEscKeyup());
+        document.removeEventListener('keyup', onEscKeyUp);
       }
     };
 
