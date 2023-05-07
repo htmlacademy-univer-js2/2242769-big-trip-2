@@ -33,7 +33,7 @@ export default class AbstractStatefulView extends AbstractView {
    * Метод для обновления состояния
    * @param {Object} update Объект с обновлённой частью состояния
    */
-  _setState(update) {
+  /**_setState(update) {
     this._state = structuredClone({...this._state, ...update});
   }
 

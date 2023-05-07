@@ -3,7 +3,6 @@ import PointView from '../view/point.js';
 import EditingPointView from '../view/point-edit.js';
 import SortView from '../view/sort.js';
 import { render } from '../render.js';
-import EmptyListView from '../view/empty-list-view.js';
 
 export default class TripEventsPresenter {
   #eventsList = null;
