@@ -30,7 +30,7 @@ export default class ApiService {
 
     const response = await fetch(
       `${this._endPoint}/${url}`,
-      {method, body, headers},
+      { method, body, headers },
     );
 
     try {
@@ -68,3 +68,4 @@ export default class ApiService {
     throw err;
   }
 }
+

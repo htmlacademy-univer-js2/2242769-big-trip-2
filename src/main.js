@@ -1,6 +1,6 @@
 import FiltersView from './view/filter.js';
 import TripEventsPresenter from './presenter/trip.js';
-import { render } from './render.js';
+import { render } from './framework/render.js';
 import PointsModel from './model/point-model.js';
 import { getPoints, getDestinations, getOffersByType } from './mock/points';
 
@@ -17,5 +17,4 @@ const pointsModel = new PointsModel();
 render(new FiltersView(), siteHeaderElement.querySelector('.trip-controls__filters'));
 pointsModel.init(points, destinations, offersByType);
 tripPresenter.init(pointsModel);
-
 
