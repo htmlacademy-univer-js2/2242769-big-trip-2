@@ -13,6 +13,7 @@ export default class TripEventsPresenter {
   #destinations = null;
   #offers = null;
 
+
   constructor(tripContainer) {
     this.#eventsList = new TripList();
     this.#tripContainer = tripContainer;
@@ -24,14 +25,11 @@ export default class TripEventsPresenter {
     this.#destinations = [...this.#pointsModel.destinations];
     this.#offers = [...this.#pointsModel.offers];
 
-    if (this.#boardPoints.length === 0) {
-      render(new EmptyListView(), this.#tripContainer);
-    } else {
-      render(new SortView(), this.#tripContainer);
-      render(this.#eventsList, this.#tripContainer);
-      for (const point of this.#boardPoints) {
-        this.#renderPoint(point);
-      }
+    render(new SortView(), this.#tripContainer);
+    render(this.#eventsList, this.#tripContainer);
+
+    for (const point of this.#boardPoints) {
+      this.#renderPoint(point);
     }
   }
 
@@ -55,9 +53,8 @@ export default class TripEventsPresenter {
     };
     const onEscKeyup = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
         turnPointToView();
-        document.removeEventListener('keyup', onEscKeyup);
+        document.removeEventListener('keyup', onEscKeyup());
       }
     };
 
@@ -86,4 +83,3 @@ export default class TripEventsPresenter {
     render(pointComponent, this.#eventsList.element);
   }
 }
-
