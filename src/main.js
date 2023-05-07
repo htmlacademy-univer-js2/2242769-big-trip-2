@@ -18,3 +18,4 @@ render(new FiltersView(), siteHeaderElement.querySelector('.trip-controls__filte
 pointsModel.init(points, destinations, offersByType);
 tripPresenter.init(pointsModel);
 
+
