@@ -1,13 +1,14 @@
-import FiltersView from './view/filter.js';
 import { render } from './framework/render.js';
-import PointsModel from './model/point-model.js';
+import FiltersView from './view/filters-view.js';
 import BoardPresenter from './presenter/presenter-board.js';
-import SiteMenuView from './view/menu_view.js';
-import { getPoints, getDestinations, getOffersByType } from './mock/points.js';
-import { generateFilter } from '../src/mock/filter.js';
+import SiteMenuView from './view/site-menu-view.js';
+import PointsModel from './model/points-model.js';
+import { getPoints, getDestinations, getOffersByType } from './mock/point.js';
+import { generateFilter } from './mock/filter.js';
 
 const siteHeaderElement = document.querySelector('.trip-main');
 const siteMainElement = document.querySelector('.page-main');
+
 
 const points = getPoints();
 const offersByType = getOffersByType();
