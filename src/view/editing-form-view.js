@@ -205,6 +205,17 @@ export default class EditingFormView extends AbstractStatefulView {
     return createEditingFormTemplate(this._state, this.#destinations, this.#offersByType);
   }
 
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setFormCloseHandler(this._callback.formClose);
+    this.setDeleteClickHandler(this._callback.deleteClick);
+
+    this.#setDatepickerDateFrom();
+    this.#setDatepickerDateTo();
+  };
+
   removeElement = () => {
     super.removeElement();
 
@@ -238,17 +249,6 @@ export default class EditingFormView extends AbstractStatefulView {
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
   };
 
-  _restoreHandlers = () => {
-    this.#setInnerHandlers();
-
-    this.setFormSubmitHandler(this._callback.formSubmit);
-    this.setFormCloseHandler(this._callback.formClose);
-    this.setDeleteClickHandler(this._callback.deleteClick);
-
-    this.#setDatepickerDateFrom();
-    this.#setDatepickerDateTo();
-  };
-
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-list').addEventListener('click', this.#pointTypeClickHandler);
 
@@ -267,7 +267,7 @@ export default class EditingFormView extends AbstractStatefulView {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
         defaultDate: this._state.dateFrom,
-        minDate: this._state.dateFrom,
+        maxDate: this._state.dateTo,
         onChange: this.#dateFromChangeHandler,
       },
     );
@@ -334,13 +334,13 @@ export default class EditingFormView extends AbstractStatefulView {
   };
 
   #dateFromChangeHandler = ([date]) => {
-    this.updateElement({
+    this._setState({
       dateFrom: date,
     });
   };
 
   #dateToChangeHandler = ([date]) => {
-    this.updateElement({
+    this._setState({
       dateTo: date,
     });
   };
@@ -362,7 +362,7 @@ export default class EditingFormView extends AbstractStatefulView {
 
     const newPrice = Number(evt.target.value);
 
-    if (Number.isFinite(newPrice) && newPrice > 0) {
+    if (Number.isFinite(newPrice) && newPrice >= 0) {
       this._setState({
         basePrice: newPrice,
       });
