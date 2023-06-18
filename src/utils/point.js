@@ -70,6 +70,8 @@ const sortPointsByPrice = (pointA, pointB) => pointB.basePrice - pointA.basePric
 
 const humanizeFormDate = (date) => dayjs(date).format('DD/MM/YY HH:mm');
 
+const humanizeHeaderDate = (date) => dayjs(date).format('MMM D');
+
 const isRightPoint = (point) => dayjs(point.dateFrom).isBefore(dayjs()) && dayjs(point.dateTo).isAfter(dayjs());
 
 const isPastPoint = (point) => dayjs(point.dateTo).isBefore(dayjs()) || isRightPoint(point);
@@ -79,7 +81,9 @@ const isFuturePoint = (point) => dayjs(point.dateFrom).isAfter(dayjs())
 
 const isDatesEqual = (dateA, dateB) => dayjs(dateA).isSame(dateB, 'D');
 
+const isMonthsEqual = (dateA, dateB) => dayjs(dateA).isSame(dateB, 'M');
+
 export {
-  humanizePointDay, humanizePointTime, humanizeFormDate, getEventDuration, isDatesEqual,
-  isPastPoint, isFuturePoint, getWeightForNullDate, sortPointsByDay, sortPointsByTime, sortPointsByPrice
+  humanizePointDay, humanizePointTime, humanizeFormDate, getEventDuration, isDatesEqual, humanizeHeaderDate,
+  isPastPoint, isFuturePoint, getWeightForNullDate, sortPointsByDay, sortPointsByTime, sortPointsByPrice, isMonthsEqual
 };
